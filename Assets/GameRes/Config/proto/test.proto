@@ -1,0 +1,30 @@
+{
+	"source":"test.xls",
+	"key":"HeroID",
+	"dataSplitChar":"",
+	"member":
+	[
+		{
+			"titleName":"HeroID",
+			"titleType":"uint",
+			"memberName":"heroID"
+		},
+		{
+			"titleName":"HeroName",
+			"titleType":"string",
+			"memberName":"heroName"
+		},
+		{
+			"titleName":"HeroHp",
+			"titleType":"uint",
+			"memberName":"hp"
+		},
+		{
+			"titleName":"Rate",
+			"titleType":"float",
+			"memberName":"rate"
+		}
+
+	]
+		
+}

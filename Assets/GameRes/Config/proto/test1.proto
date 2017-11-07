@@ -1,0 +1,25 @@
+{
+	"source":"test1.xls",
+	"key":"ItemID",
+	"dataSplitChar":"",
+	"member":
+	[
+		{
+			"titleName":"ItemID",
+			"titleType":"uint",
+			"memberName":"itemID"
+		},
+		{
+			"titleName":"Atk",
+			"titleType":"uint",
+			"memberName":"atk"
+		},		
+		{
+			"titleName":"Def",
+			"titleType":"float",
+			"memberName":"def"
+		}
+
+	]
+		
+}
