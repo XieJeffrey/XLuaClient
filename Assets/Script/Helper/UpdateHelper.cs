@@ -217,4 +217,38 @@ public class UpdateHelper
 
         }
     }
+
+    public static void LoadLuaHotFix()
+    {
+        string filePath = Util.DataPath + "/" + AppConst.hotFixFileName;
+        try
+        {
+            if (File.Exists(filePath))
+            {
+                string[] hotFixStr = File.ReadAllLines(filePath);
+                for (int i = 0; i < hotFixStr.Length; i++)
+                {
+                    if (string.IsNullOrEmpty(hotFixStr[i]))
+                        continue;
+                    string[] tmp = hotFixStr[i].Split('|');
+                    string csName = tmp[0];
+                    string funName = tmp[1];
+                    string luaFileName = tmp[2];
+                    string luaCode = "";
+                    if (File.Exists(Util.DataPath+"/"+ luaFileName) == false)
+                        continue;
+                    luaCode = File.ReadAllText(Util.DataPath + "/" + luaFileName);
+                    Main.luaenv.DoString(string.Format(@"xlua.hotfix({0},'{1}',{2})", csName, funName, luaCode), luaFileName);
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Util.LogError(e.Message);
+            Util.LogError(e.StackTrace);
+        }
+
+    }
+
+    
 }

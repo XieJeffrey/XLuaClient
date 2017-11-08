@@ -39,7 +39,46 @@ public class Packager {
         BuildAssetResource(BuildTarget.StandaloneWindows, true);
     }
 
-    [MenuItem("Game/ Generate And Copy Config")]
+    [MenuItem("Game/Packer HotFixLua Resource",false,15)]
+    public static void PackerHotFixLua()
+    {
+        #region 复制热更新的Lua代码到StreamAsset
+        string srcPath = Application.dataPath + "/Script/HotfixLua";
+        string desPath = Application.streamingAssetsPath ;
+        string[] files = Directory.GetFiles(srcPath);
+        Dictionary<string, string> md5File = new Dictionary<string, string>();
+        for (int i = 0; i < files.Length; i++)
+        {
+            if (files[i].Contains(".meta"))
+                continue;
+            string fileName = files[i].Replace(srcPath + "\\", string.Empty);            
+            md5File.Add(fileName, Util.MD5file(files[i]));
+            File.Copy(files[i],desPath + "/" + fileName,true);
+        }
+        #endregion
+
+        #region 生成MD5File 
+        string filesPath = Application.streamingAssetsPath + "/files.txt";
+        if (File.Exists(filesPath))
+        {
+            FileStream fs = new FileStream(filesPath, FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);
+            foreach (var tmp in md5File)
+            {
+                sw.WriteLine(tmp.Key+"|"+tmp.Value);
+            }
+            sw.Close();
+            sw.Dispose();            
+            fs.Close();
+            fs.Dispose();
+        }
+
+        AssetDatabase.Refresh();
+
+        #endregion
+    }
+
+    [MenuItem("Game/Generate And Copy Config",false,14)]
     public static void CopyConfig()
     {
         #region 生成配置表
@@ -78,14 +117,31 @@ public class Packager {
         string resPath = Application.dataPath + "/GameRes/Config/tbl";
         string desPath = Application.streamingAssetsPath;
         string[] fileInfos = Directory.GetFiles(resPath);
+        Dictionary<string, string> md5File = new Dictionary<string, string>();
         for (int i = 0; i < fileInfos.Length; i++)
         {
             if (fileInfos[i].Contains("meta"))
                 continue;
-            string key = fileInfos[i].Replace(resPath + "\\", string.Empty);
+            string key = fileInfos[i].Replace(resPath + "\\", string.Empty);            
             File.Copy(fileInfos[i], desPath + "/" + key, true);
+            md5File.Add(key, Util.MD5file(desPath + "/" + key));
         }
         #endregion
+        string filesPath = Application.streamingAssetsPath + "/files.txt";
+        if (File.Exists(filesPath))
+        {
+            FileStream fs = new FileStream(filesPath, FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);          
+            foreach (var tmp in md5File)
+            {
+                sw.WriteLine(tmp.Key + "|" + tmp.Value);               
+            }
+            sw.Close();
+            sw.Dispose();
+            fs.Close();
+            fs.Dispose();    
+        }
+        AssetDatabase.Refresh();
     }
 
     public static void WriteCss(JsonData jsonData, string fileName, string version)
@@ -272,21 +328,22 @@ public class Packager {
         #endregion
 
         #region 写入配置表的MD5
-        string configPath = Application.dataPath + "/GameRes/Config/tbl";
-        string[] fileInfos = Directory.GetFiles(configPath);
-        for (int i = 0; i < fileInfos.Length; i++)
-        {
-            if (fileInfos[i].Contains("meta"))
-                continue;
-            string md5 = Util.MD5file(fileInfos[i]);
-            string key = fileInfos[i].Replace(configPath+"\\",string.Empty);
-            sw.WriteLine(key + "|" + md5);
-        }
+        //string configPath = Application.dataPath + "/GameRes/Config/tbl";
+        //string[] fileInfos = Directory.GetFiles(configPath);
+        //for (int i = 0; i < fileInfos.Length; i++)
+        //{
+        //    if (fileInfos[i].Contains("meta"))
+        //        continue;
+        //    string md5 = Util.MD5file(fileInfos[i]);
+        //    string key = fileInfos[i].Replace(configPath+"\\",string.Empty);
+        //    sw.WriteLine(key + "|" + md5);
+        //}
+
         #endregion
-
-
         sw.Close();
         fs.Close();
+
+
         AssetDatabase.Refresh();
     }
 

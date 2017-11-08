@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XLua;
+using System.IO;
 
 public class Main : MonoBehaviour
 {
     public static ResourceManager ResManager;
     public static emptyMono Mono;
     public bool isUpdateFile;
+    public static LuaEnv luaenv;
     void Awake()
     {
+        luaenv = new LuaEnv();
         gameObject.AddComponent<OutLog>();
         Mono = gameObject.AddComponent<emptyMono>();       
     }
@@ -49,8 +53,9 @@ public class Main : MonoBehaviour
 
     void OnInit()
     {
-        gameObject.AddComponent<GameManager>();
+        UpdateHelper.LoadLuaHotFix();
         LoadConfig();
+        gameObject.AddComponent<GameManager>();
     }
 
     void LoadConfig()
@@ -70,9 +75,8 @@ public class Main : MonoBehaviour
         {
             Util.LogError(test1BaseManager.instance.Get(i).atk.ToString());
         }
-    }
-
-
+    }   
+    
     void OnCheckAppVersion(bool result)
     {
         if (result)

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XLua;
 
-
+[Hotfix]
 public class GameManager :MonoBehaviour {
     public List<WindowType> m_PreLoadWindow = new List<WindowType>();
     private void Awake()
