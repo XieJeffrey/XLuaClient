@@ -46,7 +46,7 @@ public class Main : MonoBehaviour
         ResManager = gameObject.AddComponent<ResourceManager>();
         ResManager.Initialize(Util.AssetDirname, delegate ()
         {
-            Debug.Log("Initialize OK!!!");
+            Util.Log("Initialize OK!!!");
             this.OnInit();
         });
     }

@@ -92,7 +92,7 @@ public class ResourceManager : MonoBehaviour
                 return m_AllManifest[i];
             }
         }
-        Debug.LogError("GetRealAssetPath Error:>>" + abName);
+        Util.LogError("GetRealAssetPath Error:>>" + abName);
         return null;
     }
 
@@ -135,7 +135,7 @@ public class ResourceManager : MonoBehaviour
             if (bundleInfo == null)
             {
                 m_LoadRequests.Remove(abName);
-                Debug.LogError("OnLoadAsset--->>>" + abName);
+                Util.LogError("OnLoadAsset--->>>" + abName);
                 yield break;
             }
         }
@@ -255,10 +255,10 @@ public class ResourceManager : MonoBehaviour
     public void UnLoadAssetBundle(string abName, bool isThorough = false)
     {
         abName = GetRealAssetPath(abName);
-        Debug.Log(m_LoadedAssetBundles.Count + " assetbundle(s) in memory before unloading " + abName);
+        Util.Log(m_LoadedAssetBundles.Count + " assetbundle(s) in memory before unloading " + abName);
         UnloadAssetBundleInternal(abName, isThorough);
         UnloadDependencies(abName, isThorough);
-        Debug.Log(m_LoadedAssetBundles.Count + " assetbundle(s) in memory after unloading " + abName);
+        Util.Log(m_LoadedAssetBundles.Count + " assetbundle(s) in memory after unloading " + abName);
     }
 
     void UnloadDependencies(string abName, bool isThorough)
@@ -288,7 +288,7 @@ public class ResourceManager : MonoBehaviour
             }
             bundle.m_AssetBundle.Unload(isThorough);
             m_LoadedAssetBundles.Remove(abName);
-            Debug.Log(abName + " has been unloaded successfully");
+            Util.Log(abName + " has been unloaded successfully");
         }
     }
 }

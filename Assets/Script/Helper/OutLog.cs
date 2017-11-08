@@ -15,8 +15,6 @@ public class OutLog : MonoBehaviour
     {
         Application.logMessageReceived += HandleLog;
 
-
-
         if (Application.platform == RuntimePlatform.Android ||
             Application.platform == RuntimePlatform.IPhonePlayer)
             outpath = Application.persistentDataPath + "/log.txt";

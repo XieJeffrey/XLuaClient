@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
+using XLua;
 
-
+[Hotfix]
+[LuaCallCSharp]
 public class Util : Singleton<Util>
 {
     public static bool IsNet
@@ -53,23 +55,29 @@ public class Util : Singleton<Util>
 
     }
 
+    public static string GetColorString(string content,string color)
+    {
+        content = string.Format("<color=#{0}>{1}</color>", color, content);
+        return content;
+    }
+
     public static void Log(string str, params object[] msg)
     {
-#if DEBUG
+#if ISDEBUG
         Debug.LogFormat(str, msg);
 #endif
     }
 
     public static void LogWarnning(string str, params object[] msg)
     {
-#if DEBUG
+#if ISDEBUG
         Debug.LogWarningFormat(str, msg);
 #endif
     }
 
     public static void LogError(string str, params object[] msg)
     {
-#if DEBUG
+#if ISDEBUG
         Debug.LogErrorFormat(str, msg);
 #endif
     }

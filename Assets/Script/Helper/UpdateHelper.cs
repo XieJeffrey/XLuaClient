@@ -218,9 +218,29 @@ public class UpdateHelper
         }
     }
 
+    private static byte[] CostomLoader(ref string fileName)
+    {
+        
+#if UNITY_EDITOR
+        fileName = Application.dataPath + "/Script/HotfixLua/" + fileName + ".lua";
+#else
+        fileName = Util.DataPath + "/" + fileName + ".lua";
+#endif
+        Util.Log(Util.GetColorString(fileName,"FFFF00"));
+        if (File.Exists(fileName))
+            return File.ReadAllBytes(fileName);
+        else
+            return null;
+       
+    }
+
     public static void LoadLuaHotFix()
     {
         string filePath = Util.DataPath + "/" + AppConst.hotFixFileName;
+        Main.luaenv.AddLoader(CostomLoader);
+
+        Main.luaenv.DoString(@"require 'util'");
+
         try
         {
             if (File.Exists(filePath))
@@ -235,9 +255,16 @@ public class UpdateHelper
                     string funName = tmp[1];
                     string luaFileName = tmp[2];
                     string luaCode = "";
+#if UNITY_EDITOR
+                    if (File.Exists(Application.dataPath + "/Script/HotfixLua/" + luaFileName) == false)
+                        continue;
+                    luaCode = File.ReadAllText(Application.dataPath + "/Script/HotfixLua/" + luaFileName);
+#else
                     if (File.Exists(Util.DataPath+"/"+ luaFileName) == false)
                         continue;
                     luaCode = File.ReadAllText(Util.DataPath + "/" + luaFileName);
+#endif
+
                     Main.luaenv.DoString(string.Format(@"xlua.hotfix({0},'{1}',{2})", csName, funName, luaCode), luaFileName);
                 }
             }
