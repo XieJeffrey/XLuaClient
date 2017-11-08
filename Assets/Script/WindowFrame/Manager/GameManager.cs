@@ -18,7 +18,6 @@ public class GameManager :MonoBehaviour {
     {
         WindowManager.instance.OnInit();
 
-
         for (int i = 0; i < m_PreLoadWindow.Count; i++)
         {
 
