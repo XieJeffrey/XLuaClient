@@ -39,6 +39,11 @@ public class Main : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        luaenv.Dispose();
+    }
+
 
     void GameInit()
     {
