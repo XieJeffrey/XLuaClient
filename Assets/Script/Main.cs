@@ -70,16 +70,16 @@ public class Main : MonoBehaviour
 #else
         string path = Application.persistentDataPath;
 #endif
-        testBaseManager.instance.Load(path+"/test.tbl");  
-        for (int i = 0; i < testBaseManager.instance.Size; i++)
+        if (testBaseManager.instance.Load(path + "/test.tbl") ==false)
         {
-            Util.LogError(testBaseManager.instance.Get(i).rate.ToString());
+            Util.LogError("{0}加载失败", "test.tbl");
+            return;
         }
-        test1BaseManager.instance.Load(path + "/test1.tbl");
-        for (int i = 0; i < test1BaseManager.instance.Size; i++)
+        if (test1BaseManager.instance.Load(path + "/test1.tbl") == false)
         {
-            Util.LogError(test1BaseManager.instance.Get(i).atk.ToString());
-        }
+            Util.LogError("{0}加载失败", "test1.tbl");
+            return;
+        }       
     }   
     
     void OnCheckAppVersion(bool result)
