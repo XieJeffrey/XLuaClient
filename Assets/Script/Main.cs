@@ -70,7 +70,7 @@ public class Main : MonoBehaviour
 #else
         string path = Application.persistentDataPath;
 #endif
-        if (testBaseManager.instance.Load(path + "/test.tbl") ==false)
+        if (testBaseManager.instance.Load(path + "/test.tbl") == false)
         {
             Util.LogError("{0}加载失败", "test.tbl");
             return;
@@ -79,7 +79,13 @@ public class Main : MonoBehaviour
         {
             Util.LogError("{0}加载失败", "test1.tbl");
             return;
-        }       
+        }
+        Util.Log(testBaseManager.instance.Find("10001").heroName);
+        Util.Log(testBaseManager.instance.Find("10002").heroName);
+        Util.Log(testBaseManager.instance.Find("10003").heroName);
+        Util.Log(testBaseManager.instance.Find("10004").heroName);
+        Util.Log(testBaseManager.instance.Find("10005").heroName);
+
     }   
     
     void OnCheckAppVersion(bool result)

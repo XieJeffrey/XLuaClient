@@ -196,6 +196,17 @@ public class Packager {
         cssContext += "\r\t\t }";
         cssContext += "\r\t\t return null;";
         cssContext += "\r\t}";
+        cssContext += "\r\tpublic " + className + " Find(string key1,string key2=\"\",string key3=\"\")";
+        cssContext += "\r\t{";
+        cssContext += "\r\t\t string key = key1.ToString();";
+        cssContext += "\r\t\t if (key2 != \"\") { key += key2.ToString(); }";
+        cssContext += "\r\t\t if (key3 != \"\") { key += key3.ToString(); }";
+        cssContext += "\r\t\t if (m_dataList.ContainsKey(key))";
+        cssContext += "\r\t\t {";
+        cssContext += "\r\t\t\treturn m_dataList[key];";
+        cssContext += "\r\t\t }";
+        cssContext += "\r\t\t return null;";
+        cssContext += "\r\t}";
         cssContext += "\r\t public bool Load(string path)";
         cssContext += "\r\t {";
         cssContext += "\r\t\t return TableUtility.instance.Load<" + className + ">(path,ref m_dataList,version.ToString());";
