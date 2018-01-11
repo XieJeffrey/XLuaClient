@@ -14,7 +14,7 @@ public class EventManager : Singleton<EventManager>
 
     public class MgrEvent
     {
-        public MgrEventType eventType;
+        public NetEventType eventType;
         public VoidHandle handle;
     }
 
@@ -73,8 +73,8 @@ public class EventManager : Singleton<EventManager>
 
     #endregion
 
-    #region 管理器事件分发
-    public void RegistEvent(MgrEventType m_event, VoidHandle handle)
+    #region logic管理器事件分发
+    public void RegistEvent(NetEventType m_event, VoidHandle handle)
     {
         MgrEvent tmp = new MgrEvent();
         tmp.eventType = m_event;
@@ -83,7 +83,7 @@ public class EventManager : Singleton<EventManager>
             mgrEventList.Add(tmp);
     }
 
-    public void RemoveEvent(MgrEventType m_event, VoidHandle handle)
+    public void RemoveEvent(NetEventType m_event, VoidHandle handle)
     {
         for (int i = 0; i < mgrEventList.Count; i++)
         {
@@ -95,7 +95,7 @@ public class EventManager : Singleton<EventManager>
         }
     }
 
-    public void NotifyEvent(MgrEventType m_event, params object[] param)
+    public void NotifyEvent(NetEventType m_event, params object[] param)
     {
         for (int i = 0; i < mgrEventList.Count; i++)
         {

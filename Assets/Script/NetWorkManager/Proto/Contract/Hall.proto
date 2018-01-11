@@ -1,0 +1,179 @@
+package Contract.Hall;
+import "Entity.proto";
+//登录返回结果
+ message LoginResultContract{
+     optional sint32 Result =1; //int Result登录结果0 成功 1用户不存在 2 密码不对 
+	 optional Contract.Entity.UserEntity UserInfo=2;//用户信息
+	 repeated  Contract.Entity.RoleSkillEntity RoleSkillList=3;//角色技能信息
+	 optional sint32 CostGoldCoin=4;//抽奖金币
+	 optional sint32 CostDiamond=5;//抽奖砖石
+	 optional string EatBunTime=6;//吃包子开放时间
+
+ }
+ //登录类型
+ message LoginContract{
+     optional string UserID=1;//
+     optional string Pwd=2;//
+ }
+ //注册用户
+ message RegisterContract
+ {
+	optional string UserID=1;//帐号
+	optional string Pwd=2;//密码
+ }
+ //返回注册结果
+ message ResultRegisterContract
+ {
+	optional sint32 Result =1; //0成功 1用户已存在
+ }
+ //创建用户名
+ message ResultCreateUserNameContract
+ {
+	optional string UserName=1;
+ }
+ //获取全部关卡信息
+ message GetHurdleLevelContract
+ {
+  repeated  Contract.Entity.PassInfoEntity OrdinaryPassInfoList=1;//普通过关信息
+  repeated  Contract.Entity.PassInfoEntity ElitePassInfoList=2;//精英过关信息
+ }
+ message LuckDrawContract
+ {
+	optional sint32 Type=1;//1金币 2砖石
+ }
+  message ResultLuckDrawContract
+ {
+	optional sint32 Result=1;//0成功1没有抽到奖 2金币不足 3砖石不足
+	optional  Contract.Entity.PrizeEntity PrizeInfo=2;//奖品信息
+	optional sint32 GoldCoin =3;//金币
+    optional sint32 Diamond = 4;//砖石
+ }
+ //购买角色
+ message BuyRoleContract
+ {
+	optional sint32 Type=1;//1金币 2砖石
+	optional sint32 RoleID=2;//角色ID
+ }
+ //返回购色角色结果
+ message ResultBuyRoleContract
+ {
+	optional sint32 Result=1;//0成功1余额不足 2角色ID不存在
+	optional sint32 Type=2;//1金币 2砖石
+	optional sint32 RoleID=3;//角色ID
+	optional sint32 GoldCoin = 4;//金币
+    optional sint32 Diamond = 5;//砖石
+	repeated  Contract.Entity.RoleSkillEntity RoleSkillList=6;//角色技能信息
+ }
+ //技能升级
+ message SkillUpgradeContract
+ {
+	optional sint32 SkillID=2;//技能ID
+ }
+ //返回技能升级结果 
+ message ResultSkillUpgradeContract
+ {
+	optional sint32 Result=1;//0成功 1金币不足 2砖石不足3失败
+	optional sint32 GoldCoin = 2;//金币
+    optional sint32 Diamond = 3;//砖石
+ }
+ //选 择角色
+ message SelectRoleContract
+ {
+	optional sint32 RoleID=1;//角色ID
+ }
+  //返回选择角色结果
+ message ResultSelectRoleContract
+ {
+	optional sint32 Result=1;//0成功 1未拥有 2失败
+ }
+ //选择技能ID
+ message SelectSkillContract
+ {
+	optional sint32 SkillID=1;//技能ID
+	optional sint32 FormerID=2;//上个选中ID 
+ }
+ //返回选择技能ID
+ message ResultSelectSkillContract
+ {
+	optional sint32 Result=1;//0成功 1未拥有 2失败
+ }
+ //购买技能数
+ message BuySkillCountContract
+ {
+	optional sint32 RoleID=1;//角色ID
+ }
+ //返回购买技能数
+ message ResultBuySkillCountContract
+ {
+	optional sint32 Result=1;//0成功 1未拥有角色 2余额不足 3爆炸已满
+	optional sint32 Diamond=2;//砖石
+ }
+ //使用技能
+ message UseSkillContract
+ {
+	optional sint32 RoleID=1;//角色ID
+ }
+ //返回使用技能结果
+ message ResultUseSkillContract
+ {
+	optional sint32 Result=1;//0成功 1未拥有角色2没有技能使用  
+ }
+ //返回开始吃包子结果
+ message ResultStartEatBunContract
+ {
+	optional sint32 Result=1;//0成功 1没有使用次数 2时间未到
+	repeated  string NameList=2;//用户名
+	
+ }
+ //获得吃包子体力
+ message GetEatBunContract
+ {  
+	optional sint32 ClickCount=1;//点击次数
+ }
+  //返回获得吃包子体力结果
+ message ResultGetEatBunContract
+ {
+	optional sint32 Result=1;//0成功 1失败
+	optional  sint32 Strength=2;//获得体力
+ }
+ //修改用户名
+ message UpdateNameContract
+ {
+	optional string Name=1;//用户名称
+ }
+ //返回修改用户名结果
+ message ResultUpdateNameContract
+ {
+	 optional sint32 Result=1;//0成功 1用户名已存在 
+ }
+ ///购买道具
+ message BuyPropContract
+ {
+   optional sint32 PropID=1;//道具ID
+ }
+ //返回购买道具结果
+  message ResultBuyPropContract
+ {
+	optional sint32 Result=1;//0成功 1失败 2砖石不足
+	optional sint32 Diamond=2;//砖石
+	optional sint32 PropID=3;//道具ID
+ }
+ //互换商品
+ message SwapGoodsContract
+ {
+  optional sint32 SwapID=1;//互换ID
+ }
+ //返回互换商品
+ message ResultSwapGoodsContract
+ {
+  optional sint32 Result=1;//0成功 1失败 2砖石不足 3金币不足
+  optional sint32 GoldCoin=2;//金币
+  optional sint32 Diamond=3;//砖石
+  optional sint32 Strength=4;//体力
+  optional sint32 SwapID=5;//互换ID
+ }
+ //获取验证码
+ message GetVerifyCodeContract
+ {
+	optional string PhoneNum=1;//手机号码
+ }

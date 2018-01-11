@@ -4,20 +4,55 @@ using UnityEngine;
 
 public class AppConst
 {
+#if UNITY_EDITOR
     public const bool IsUpdate = false;
+#else
+      public const bool IsUpdate = true;
+#endif
+
     public const string AppName = "ClientFrame";
-    public const int ResVersion = 20171023;
-    public const int AppVersion = 20171023;//服务器版本
+    public const int AppVersion = 1712211443;
     public const string ExtName = ".assetbundle";
     public const string hotFixFileName = "manifest.lua";
-    public const string ResUrl = "";//存放最新资源版本号的地址
-    public const string ResMD5File = "";//存放资源MD5文件的地址
-    public const string AppUrl = "";//存放最新的App版本号的地址
-
-
-#if ANDROID || UNITY_EDITOR
-    public static string UpdateUrl = "http://localhost/Update/Android/";
+#if UNITY_ANDROID || UNITY_EDITOR
+#if OUTER
+    public const string ServerVersionUrl = "http://121.41.24.200:8888/data/WuKong/Android/Version.txt";
+    public const string ResMD5File = "http://121.41.24.200:8888/data/WuKong/Android/files.txt";
+    public static string UpdateUrl = "http://121.41.24.200:8888/data/WuKong/Android/data";
 #else
-    public static string UpdateUrl = "http://localhost/Update/IOS/";
+    public const string ServerVersionUrl = "http://192.168.5.3:8888/data/WuKong/Android/Version.txt";
+    public const string ResMD5File = "http://192.168.5.3:8888/data/WuKong/Android/files.txt";
+    public static string UpdateUrl = "http://192.168.5.3:8888/data/WuKong/Android/data";
 #endif
+#elif UNITY_IPHONE
+#if OUTER
+    public const string ServerVersionUrl = "http://121.41.24.200:8888/data/WuKong/IOS/Version.txt";
+    public const string ResMD5File = "http://121.41.24.200:8888/data/WuKong/IOS/files.txt";
+    public static string UpdateUrl = "http://121.41.24.200:8888/data/WuKong/IOS/data";
+#else
+     public const string ServerVersionUrl = "http://192.168.5.3:8888/data/WuKong/IOS/Version.txt";
+      public const string ResMD5File = "http://192.168.5.3:8888/data/WuKong/IOS/files.txt";
+    public static string UpdateUrl = "http://192.168.5.3:8888/data/WuKong/IOS/data";
+#endif   
+#endif
+
+    public const int lockFrame = 30;
+    public const float SendMessageTimeOut = 500f;
+
+#if FULIN
+    public const string ServerIP = "192.168.5.38";
+    public const int ServerPort = 9989;
+#elif OFFLINE
+    public const string ServerIP = "";
+    public const int ServerPort = 0;
+#elif OUTER
+    public const string ServerIP = "121.40.155.10";
+    public const int ServerPort = 7089;
+#else
+    public const string ServerIP = "192.168.5.4";
+    public const int ServerPort = 9989;
+#endif
+
+    public const int Language = 1;//中文
+
 }

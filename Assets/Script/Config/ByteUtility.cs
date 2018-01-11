@@ -85,12 +85,35 @@ public class ByteUtility
         string str = data.ToString();
         return WriteString(str, array);
     }
+
+    public static byte[] WriteListString(string data, byte[] array)
+    {
+        string str = data.ToString();
+        return WriteString(str, array);
+    }
+
+    public static byte[] WriteListInt(string data, byte[] array)
+    {
+        return WriteString(data, array);
+    }
     #endregion
 
     #region ReadByte
     public static uint ReadUint(ref byte[] data)
     {
         uint tmp = BitConverter.ToUInt32(data, 0);
+        byte[] newData = new byte[data.Length - 4];
+        for (int i = 0; i < newData.Length; i++)
+        {
+            newData[i] = data[i + 4];
+        }
+        data = newData;
+        return tmp;
+    }
+
+    public static int ReadInt(ref byte[] data)
+    {
+        int tmp = BitConverter.ToInt32(data, 0);
         byte[] newData = new byte[data.Length - 4];
         for (int i = 0; i < newData.Length; i++)
         {
@@ -133,11 +156,32 @@ public class ByteUtility
 
     public static float ReadFloat(ref byte[] data)
     {
-        string str = ReadString(ref data);        
+        string str = ReadString(ref data);
         float value = float.Parse(str);
         return value;
     }
 
+    public static List<string> ReadListString(ref byte[] data, string splitChar)
+    {
+        string str = ReadString(ref data);
+        List<string> value = str.Split(new char[] { splitChar[0] }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        return value;
+    }
+
+    public static List<int> ReadListInt(ref byte[] data, string splitChar)
+    {
+        string str = ReadString(ref data);
+        string[] tmp = str.Split(new char[] { splitChar[0] }, StringSplitOptions.RemoveEmptyEntries);
+        List<int> value = new List<int>();
+        for (int i = 0; i < tmp.Length; i++)
+        {
+            if (tmp[i] != "")
+                value.Add(int.Parse(tmp[i]));
+        }
+
+        return value;
+
+    }
     #endregion
 }
 

@@ -8,11 +8,9 @@ using System.Collections.Generic;
 public enum WindowType
 {
     LoginWindow = 1,
-}
-
-public enum ManagerType
-{
-    LoginMgr = 1,
+    FloatTipWindow = 2,  
+    ConfirmWindow = 3,
+    GameWindow = 4,
 }
 
 public enum ConfigType
@@ -27,32 +25,56 @@ public enum ConfigType
 /// </summary>
 public enum UIEventType
 {
-    #region LoginWindow
+    #region LoginWindow & CreateRole
     OnLoginSuccess = 1,  //登录t7成功      
+
+    OnRandomName = 3,
+    OnCreatedRole = 4,
+	#endregion
+	
+	#region MainWindow 10 ~ 20
+	OnRefreshStories = 11,
+    OnResultEat = 12,
+    OnUserNameChanged = 13,
+    #endregion
+
+    #region TitleWindow 20-30
+    OnUserDataChanged =21,
+    #endregion
+
+    #region SelectStoryWindow 30~40
+    OnEnterBattle = 31,
+    #endregion
+
+    #region BattleWindow 41 ~ 50
+    OnGameOver = 41,
+    OnCollectedGold = 42,
+    OnShrink=43,
+    #endregion
+
+    #region ActivityWindow 61~70
+    OnDrawRespone=61,
+    OnGainStrength = 62,
+    #endregion
+
+    #region SelectRoleWindow 71 ~ 80
+    OnSelectedRole = 71,
+    OnBoughtRole = 72,
+    #endregion
+
+    #region SkillWindow 81~90
+    OnSelectSkill = 81,
+    OnUpgradeSkill = 82,
+    OnBoughtSkill = 83,
+    OnUseSkill = 84,
     #endregion
 
     #region Common 很多地方会用到 1000+
-    OnSynCountDown = 1001,
-    OnOutTimeBuckleLife = 1002,
-    OnVictoryOrDefeat = 1003,     //小游戏结束时发出来的
-    OnGameResultBack = 1004,       //由服务器返回的消息发起
-
-    OnHallException = 1005,
-    OnHallDisconnect = 1006,
-    OnHallNetNotConnect = 1007,
-    OnBt7Excpetion = 1008,
-    OnBt7Disconnect = 1009,
-    OnBt7NetNotConnect = 1010,
-    RefreshRedTip = 1011,
-    OnRefreshPing = 1012,
-
-    OnPkOfflineLoseLife = 1013,
+    OnPlayShowOutEnd = 1001,
+    OnSuccessBuyGood = 1002,
+    OnSuccessSwapGood = 1003,
+    OnBossStateChange = 1004,
     #endregion
-}
-
-public enum MgrEventType
-{
-    ConnectHallResult = 1,
 }
 
 public enum ResourceType

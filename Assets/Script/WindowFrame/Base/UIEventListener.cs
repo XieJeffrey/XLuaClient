@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class UIEventListener : MonoBehaviour, IEventSystemHandler, IPointerDownHandler,
     IPointerUpHandler, IPointerClickHandler
@@ -26,6 +27,7 @@ public class UIEventListener : MonoBehaviour, IEventSystemHandler, IPointerDownH
     {
         if (onClick != null)
         {
+            Main.AudioManager.Play(SoundID.Click);
             onClick(gameObject, eventData);
         }
     }

@@ -12,6 +12,11 @@ public class TableUtility : Singleton<TableUtility>
     {
         try
         {
+            Util.Log(path);
+#if UNITY_ANDRIOID && UNITY_EDITOR
+            byte[] data = File.ReadAllBytes(path);
+#else
+#endif
             byte[] data = File.ReadAllBytes(path);
             string tblVersion = ByteUtility.ReadString(ref data);
             if (tblVersion != version)
@@ -19,6 +24,7 @@ public class TableUtility : Singleton<TableUtility>
                 Util.LogError("{0} 读取失败，版本错误",path);
                 return false ;
             }
+            string splitChar = ByteUtility.ReadString(ref data);
             string[] typeStr = ByteUtility.ReadString(ref data).Split('|');
             string[] memberStr = ByteUtility.ReadString(ref data).Split('|');
 
@@ -32,10 +38,10 @@ public class TableUtility : Singleton<TableUtility>
                 {
                     switch (typeStr[i])
                     {
-                        case "uint":
-                            propertyInfo = type.GetField(memberStr[i]);
-                            propertyInfo.SetValue(tmp, ByteUtility.ReadUint(ref data));
-                            break;
+                        //case "uint":
+                        //    propertyInfo = type.GetField(memberStr[i]);
+                        //    propertyInfo.SetValue(tmp, ByteUtility.ReadUint(ref data));
+                        //    break;
                         case "string":
                             propertyInfo = type.GetField(memberStr[i]);
                             propertyInfo.SetValue(tmp, ByteUtility.ReadString(ref data));
@@ -48,6 +54,18 @@ public class TableUtility : Singleton<TableUtility>
                             propertyInfo = type.GetField(memberStr[i]);
                             propertyInfo.SetValue(tmp, ByteUtility.ReadShort(ref data));
                             break;
+                        case "int":
+                            propertyInfo = type.GetField(memberStr[i]);
+                            propertyInfo.SetValue(tmp, ByteUtility.ReadInt(ref data));
+                            break;
+                        case "List<string>":
+                            propertyInfo = type.GetField(memberStr[i]);
+                            propertyInfo.SetValue(tmp, ByteUtility.ReadListString(ref data, splitChar));
+                            break;
+                        case "List<int>":                         
+                            propertyInfo = type.GetField(memberStr[i]);
+                            propertyInfo.SetValue(tmp, ByteUtility.ReadListInt(ref data, splitChar));
+                            break;
                     }
                 }
                 if (!outPutData.ContainsKey(keyStr))
@@ -58,7 +76,7 @@ public class TableUtility : Singleton<TableUtility>
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.StackTrace);
+            Util.LogError(e.StackTrace);
             return false;
         }
         return true;

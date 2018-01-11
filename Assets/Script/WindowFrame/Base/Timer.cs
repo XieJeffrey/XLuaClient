@@ -55,6 +55,14 @@ public class Timer : Singleton<Timer>
         return m_timer;
     }
 
+    public void RemoveTimer(timer m_timer)
+    {
+        if(m_timer==null)
+            return;
+        if (timerList.Contains(m_timer))
+            timerList.Remove(m_timer);
+    }
+
     public void ResetTimer()
     {
         timerList.Clear();

@@ -33,12 +33,11 @@ public class Window
 
     public virtual void OnClose()
     {
-#if UNITY_EDITOR
-        Resources.UnloadUnusedAssets();
-#else
-        string abName = Util.Upper2LowerAnd_(m_name.Replace("Window", ""));
-            Main.ResManager.UnLoadAssetBundle(abName);       
-#endif
+        //string abName = Util.Upper2LowerAnd_(m_name.Replace("Window", ""));
+        // string abName = m_name.Replace("Window", "").ToLower();
+#if !UNITY_EDITOR
+        Main.ResManager.UnLoadAssetBundle(bundle);
+#endif     
     }
 
     public virtual void OnInit()
@@ -52,22 +51,7 @@ public class Window
             if (m_mono == null)
             {
                 m_mono = m_gameObject.AddComponent<emptyMono>();
-            }
-            m_panel = m_gameObject.GetComponent<Canvas>();
-            if (m_sortingOrder == 0)
-            {
-                m_sortingOrder = m_gameObject.transform.GetSiblingIndex();
-            }
-            m_panel.overrideSorting = true;
-            m_panel.sortingOrder = m_sortingOrder;
-            Canvas[] m_panel_array = m_gameObject.GetComponentsInChildren<Canvas>();
-            for (int i = 0; i < m_panel_array.Length; i++)
-            {
-                if (m_panel_array[i] == m_panel)
-                    continue;
-                m_panel_array[i].overrideSorting = true;
-                m_panel_array[i].sortingOrder = m_panel_array[i].sortingOrder + m_sortingOrder;
-            }
+            }           
 
             RegistEvents();
         }
@@ -172,7 +156,7 @@ public class Window
         if (m_gameObject.GetComponent<GraphicRaycaster>() == null)
             m_gameObject.AddComponent<GraphicRaycaster>();
         m_panel.overrideSorting = true;
-        m_panel.sortingOrder = m_sortingOrder;
+     
         //todo
         //m_gameObject.transform.SetParent(SimpleFramework.LuaHelper.GetPanelManager().parent);
         m_gameObject.transform.localScale = Vector3.one;
@@ -183,6 +167,35 @@ public class Window
             m_isInit = true;
         }
         m_isLoad = true;
+        //if (m_sortingOrder == 0)
+        //{
+        //    
+        //}
+
+        if(m_sortingOrder==0)
+            m_sortingOrder = WindowManager.instance.CurrentOrder;
+        m_panel = m_gameObject.GetComponent<Canvas>();
+        //if (m_panel.sortingOrder == 0)
+        //{         
+        //    m_panel.overrideSorting = true;
+        //    m_panel.sortingOrder = m_sortingOrder;
+        //}
+        m_panel.overrideSorting = true;
+        m_panel.sortingOrder = m_sortingOrder;
+
+        Canvas[] m_panel_array = m_gameObject.GetComponentsInChildren<Canvas>();
+        foreach (Transform t in m_gameObject.transform)
+        {
+            Canvas tmp = t.GetComponent<Canvas>();
+            if (tmp == null)
+                continue;
+
+            if(tmp==m_panel)
+                continue;
+
+            tmp.overrideSorting = true;
+            tmp.sortingOrder = tmp.sortingOrder + m_panel.sortingOrder;
+        }       
     }
 
     public void Close()
@@ -202,7 +215,6 @@ public class Window
         }
         brotherWindowLst.Clear();
         GameObject.Destroy(m_gameObject);
-
     }
 
 

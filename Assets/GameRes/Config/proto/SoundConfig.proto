@@ -1,0 +1,32 @@
+{
+    "source":"SoundConfig.xls",
+    "key":"ID",
+    "dataSplitChar":"",
+    "member":[
+        {
+            "titleName":"ID",
+            "titleType":"int",
+            "memberName":"ID"
+        },
+        {
+            "titleName":"Desc",
+            "titleType":"string",
+            "memberName":"Desc"
+        },
+        {
+            "titleName":"Sound",
+            "titleType":"string",
+            "memberName":"Sound"
+        },
+        {
+            "titleName":"Delay",
+            "titleType":"float",
+            "memberName":"Delay"
+        },
+	{
+            "titleName":"Volume",
+            "titleType":"float",
+            "memberName":"Volume"
+        }
+    ]
+}

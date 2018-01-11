@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using System;
 using UObject = UnityEngine.Object;
-
+using Spine.Unity;
 
 public class AssetBundleInfo
 {
@@ -40,6 +40,7 @@ public class ResourceManager : MonoBehaviour
     public void Initialize(string manifestName, Action initOK)
     {
         m_BaseDownloadingURL = Util.GetRelativePath();
+        Util.Log(m_BaseDownloadingURL);
         LoadAsset<AssetBundleManifest>(manifestName, new string[] { "AssetBundleManifest" }, delegate (UObject[] objs)
         {
             if (objs.Length > 0)
@@ -67,9 +68,19 @@ public class ResourceManager : MonoBehaviour
         LoadAsset<Sprite>(abName, new string[] { assetName }, func);
     }
 
+    public void LoadImage(string abName, string[] assetName, Action<UObject[]> func)
+    {
+        LoadAsset<Sprite>(abName, assetName, func);
+    }
+
     public void LoadAudio(string abName, string assetName, Action<UObject[]> func)
     {
         LoadAsset<AudioClip>(abName, new string[] { assetName }, func);
+    }
+
+    public void LoadSkelData(string abName, string assetName, Action<UObject[]> func)
+    {
+        LoadAsset<SkeletonDataAsset>(abName, new string[] { assetName }, func);
     }
 
 
@@ -99,25 +110,25 @@ public class ResourceManager : MonoBehaviour
     void LoadAsset<T>(string abName, string[] assetNames, Action<UObject[]> action = null) where T : UObject
     {
         abName = GetRealAssetPath(abName);
-        //请求句柄
+        //请求句柄    
         LoadAssetRequest request = new LoadAssetRequest();
         request.assetType = typeof(T);
         request.assetNames = assetNames;
         request.sharpFunc = action;
-        Util.Log("load asset requset init");
+
         List<LoadAssetRequest> requests = null;
         if (!m_LoadRequests.TryGetValue(abName, out requests))
         {
             requests = new List<LoadAssetRequest>();
             requests.Add(request);
             m_LoadRequests.Add(abName, requests);
-
         }
         else
         {
             requests.Add(request);
-
-        }
+          
+            return;
+        }    
         StartCoroutine(OnLoadAsset<T>(abName));
     }
 
@@ -140,13 +151,13 @@ public class ResourceManager : MonoBehaviour
             }
         }
         List<LoadAssetRequest> list = null;
-        Util.Log("Get assetbundleInfo");
+        //Util.Log("Get assetbundleInfo");
         if (!m_LoadRequests.TryGetValue(abName, out list))
         {
             m_LoadRequests.Remove(abName);
             yield break;
         }
-        Util.Log("准备实例化并执行请求回调");
+        //Util.Log("准备实例化并执行请求回调");
         for (int i = 0; i < list.Count; i++)
         {
             string[] assetNames = list[i].assetNames;
@@ -156,14 +167,17 @@ public class ResourceManager : MonoBehaviour
             for (int j = 0; j < assetNames.Length; j++)
             {
                 string assetPath = assetNames[j];
-#if !UNITY_EDITOR
-                    AssetBundleRequest request = ab.LoadAssetAsync(assetPath, list[i].assetType);
-                    yield return request;
-                    result.Add(request.asset);
-#else
-                UnityEngine.Object obj = ab.LoadAsset(assetPath, list[i].assetType);
-                result.Add(obj);
-#endif
+                AssetBundleRequest request = ab.LoadAssetAsync(assetPath, list[i].assetType);
+                yield return request;
+                result.Add(request.asset);
+//#if !UNITY_EDITOR
+//                    AssetBundleRequest request = ab.LoadAssetAsync(assetPath, list[i].assetType);
+//                    yield return request;
+//                    result.Add(request.asset);
+//#else
+//                // UnityEngine.Object obj = ab.LoadAsset(assetPath, list[i].assetType);
+//                //result.Add(obj);
+//#endif
 
                 //T assetObj = ab.LoadAsset<T>(assetPath);
                 //result.Add(assetObj);

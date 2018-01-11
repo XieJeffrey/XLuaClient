@@ -1,0 +1,22 @@
+{
+    "source":"Language.xls",
+    "key":"ID",
+    "dataSplitChar":"",
+    "member":[
+        {
+            "titleName":"ID",
+            "titleType":"string",
+            "memberName":"ID"
+        },
+        {
+            "titleName":"Chinese",
+            "titleType":"string",
+            "memberName":"chinese"
+        },
+        {
+            "titleName":"English",
+            "titleType":"string",
+            "memberName":"english"
+        }
+    ]
+}

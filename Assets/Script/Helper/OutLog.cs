@@ -13,7 +13,7 @@ public class OutLog : MonoBehaviour
 
     void Awake()
     {
-        Application.logMessageReceived += HandleLog;
+        //Application.logMessageReceived += HandleLog;
 
         if (Application.platform == RuntimePlatform.Android ||
             Application.platform == RuntimePlatform.IPhonePlayer)
@@ -34,7 +34,7 @@ public class OutLog : MonoBehaviour
 
     private void OnDisable()
     {
-        Application.logMessageReceived -= HandleLog;
+        //Application.logMessageReceived -= HandleLog;
     }
 
     void Update()

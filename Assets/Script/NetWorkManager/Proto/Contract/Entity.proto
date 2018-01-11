@@ -1,0 +1,78 @@
+package Contract.Entity;
+//用户信息
+ message UserEntity { 
+     optional string UserID =1; //
+     optional string Name =2; //名称
+     optional string HeadImg =3; //头像
+     optional sint32 GoldCoin =4; //金币
+     optional sint32 Diamond =5; //钻石
+     optional sint32 SelectRole =6; //当前选择的角色
+	 optional string HaveRole=7;//拥有的角色
+	 optional sint32 Strength=8;//当前体力
+	 optional sint32 MaxStrength=9;//最大体力
+	 optional sint32 StarsNum=10;//星星数
+	 optional sint32 ClearanceNum=11;// 当前过关数
+	 optional sint32 BuyStrengthNum=12;//当前购买体力次数
+	 optional sint32 MaxSkill=13;//最大购买技能
+}
+//关卡信息
+message HurdleLevelEntity
+{
+    optional sint32 ID=1;//关卡ID
+	optional string Name=2;//名称
+	optional sint32 BossID=3;//怪物ID
+	optional sint32 MonsterID=4;//小怪ID
+	optional sint32 MaxGoldCoin=5;//关卡金币上限
+	optional sint32 MonsterGoldCoin=6;//小怪金币
+	optional string Prop=7;//道具
+	optional sint32 StandardTime=8;//评星条件 时间 s
+	optional sint32 StandardGoldCoin=9;//评星条件 金币
+	optional sint32 Energy=10;//消耗体力
+	optional sint32 OpenStar=11;//打开关卡星星数
+	optional sint32 Lv=12;//关卡索引
+}
+//通关信息
+message PassInfoEntity
+{ 
+	optional sint32 PassID=1;//关卡ID
+    optional sint32 StarsNum=2;//评星数
+	optional string Remark=3;//通关备注
+}
+//角色技能
+message RoleSkillEntity
+{
+	optional sint32 RoleID=1;//角色ID
+    optional sint32 SkillID=2;//技能ID
+	optional sint32 Num=3;//数量
+	optional sint32 Lv=4;//等级
+	optional bool Selected=5;//是否选中
+}
+//奖品
+message PrizeEntity
+{	optional sint32 Prize=1;//奖品
+	optional sint32 Type=2;//奖品类型 1金币 2体力 3钻石 4角色 5角色拥有返回金币
+}
+message GuildEntity
+{
+    optional sint32 ID=1;//公会ID
+	optional string Name=2;//公会名称
+	optional sint32 ActiveValue=3;//活跃值
+	optional string PresidentID=4;//会长ID
+	optional sint32 CurrentMember=5;//当前成员
+	optional sint32 MaxMember=6;//最大成员
+	optional bool IsName=7;//是否改名称
+	optional sint32 OldRanking=8;//旧排名
+	optional sint32 NewRanking=9;//新排名
+}
+//公会成员
+message GuildMemberEntity
+{
+    optional string MemberID=1;// 成员ID
+	optional string MemberName=2;//成员名
+	optional sint32 ActiveValue=3;//活跃值
+	optional bool IsSign=4;//是否签到
+	optional bool IsOnLine=5;//是否在线
+	optional string DownLineTime=6;//下线时间 
+	optional sint32 GuildID=7;//公会ID
+	optional sint32 Type=8;//1会长 2副会长 3成员
+}

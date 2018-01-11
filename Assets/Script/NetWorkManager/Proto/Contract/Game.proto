@@ -1,0 +1,28 @@
+package Contract.Hall;
+import "Entity.proto";
+//游戏开始
+ message StartGameContract{
+     optional sint32 ID =1; //关卡ID
+	 optional string PropID=2;//道具ID
+ }
+ //返回游戏开始结果 
+ message ResultStartGameContract
+ {
+	 optional sint32 Result=1;//0成功 1金币不足 2体力不足 3未开启
+	 optional sint32 Strength=2;//剩于体力
+ }
+ //游戏结束
+ message GameOverContract
+ {
+	optional sint32 ID =1; //关卡ID
+	optional sint32 GoldCoin=2;//金币
+	optional bool IsSuccess=3;//是否成功
+	optional sint32 StarsNum=4;//星星数
+	 
+ }
+ //返回游戏结束结果
+  message ResultGameOverContract
+ {
+	 optional sint32 Result=1;//0成功
+	 optional Contract.Entity.UserEntity UserInfo=2;//用户信息
+ }
